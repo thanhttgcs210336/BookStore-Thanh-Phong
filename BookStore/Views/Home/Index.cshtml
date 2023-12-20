@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model X.PagedList.IPagedList<Book>;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common
+<div class="banner_bg_main">
+    <!-- header top section start -->
+    <div class="container">
+        <div class="header_section_top">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="custom_menu">
+                        <ul>
+                            <partial name="_LoginPartial" />
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header top section start -->
+    <!-- logo section start -->
+    <div class="logo_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="logo"><a href="index.html"><img src="~/images/logo.png"></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- logo section end -->
+    <!-- header section start -->
+    <div class="header_section">
+        <div class="container">
+            <div class="containt_main">
+                @await Component.InvokeAsync("CategoryMenu")
+
+
+                <div class="main">
+                    <!-- Another variation with a button -->
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search this blog">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button" style="background-color: #f26522; border-color:#f26522 ">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="header_box">
+                    <div class="lang_box ">
+
+                        <div class="dropdown-menu ">
+                        </div>
+                    </div>
+                    <div class="login_menu">
+                        <ul>
+                          
+                            <li>
+                               <a asp-action="Cart" asp-controller="Cart">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                @await Html.PartialAsync("CrtPartial")
+                                </a>
+                            </li>
+                            
+                            <li>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header section end -->
+    <!-- banner section start -->
+    <div class="banner_section layout_padding">
+        <div class="container">
+            <div id="my_slider" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h1 class="banner_taital">Get Start <br>Your favourite book</h1>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h1 class="banner_taital">Get Start <br>Your favourite book</h1>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h1 class="banner_taital">Get Start <br>Your favourite book</h1>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#my_slider" role="button" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="carousel-control-next" href="#my_slider" role="button" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- banner section end -->
+</div>
+<div class="fashion_section">
+    <div id="main_slider" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="container">
+                    <h1 class="fashion_taital">Book Store</h1>
+                    <div class="fashion_section_2">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-lg-4 col-sm-4">
+                                    <div class="box_main">
+                                        <h4 class="shirt_text">@item.BookName</h4>
+                                        <p class="price_text">Price <span style="color: #262626;">$@item.Price</span></p>
+                                        <div class="tshirt_img" style="height: 200px; overflow: hidden;">
+                                            <img src="~/images/@item.Image" style="width: 100%; height: auto;" />
+                                        </div>
+                                        <div class="btn_main">
+                                            <div class="buy_bt"><a asp-action="AddToCart" asp-controller="Cart" asp-route-productid="@item.BookId">Buy Now</a></div>
+                                            <div class="seemore_bt"><a asp-controller="Home" asp-action="Bookdetail" asp-route-BookId="@item.BookId">See More</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pagination-container mt-4">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }), new PagedListRenderOptions
+   {
+       LiElementClasses = new[] { "page-item" },
+       PageClasses = new[] { "page-link" },
+       Display = PagedListDisplayMode.IfNeeded,
+       ContainerDivClasses = new[] { "pagination", "justify-content-center" },
+       UlElementClasses = new[] { "pagination" }
+   })
+    </div>
+</div>
